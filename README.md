@@ -45,6 +45,10 @@ for user in User.objects.all():
     print("ID: %d\tUsername: %s" % (user.id, user.name))
 ```
 
+Tips
+----
+* If you get errors when doing migrations, try removing `db/migrations`.
+
 Acknownledgement
 ----
 * [Official Django documentation about Django Models](https://docs.djangoproject.com/en/2.0/topics/db/models/)
