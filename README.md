@@ -38,11 +38,11 @@ django_orm.migrate()
 try:
     alice = User.objects.get(name='Alice')
 except:
-    alice = User.objects.create(name='Alice')
+    alice = User(name='Alice')
+    alice.save()
 
-for i in User.objects.all():
-    print("ID: " + str(i.id) + "\tUsername: " + i.name)
-
+for user in User.objects.all():
+    print("ID: %d\tUsername: %s" % (user.id, user.name))
 ```
 
 Acknownledgement
