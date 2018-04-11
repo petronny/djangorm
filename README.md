@@ -48,6 +48,7 @@ for user in User.objects.all():
 Tips
 ----
 * If you get errors when doing migrations, try removing `db/migrations`.
+* If you want to rename the `db` folder, please also change the value of `module_name` in `django_orm.py`.
 
 Acknownledgement
 ----
