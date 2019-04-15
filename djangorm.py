@@ -8,7 +8,7 @@ from django.core.management import execute_from_command_line
 module_name = 'db'
 database = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(module_name, 'db.sqlite3')
+        'NAME': os.path.join(os.path.dirname(os.path.realpath(__file__)), module_name, 'db.sqlite3')
 }
 
 conf = {
