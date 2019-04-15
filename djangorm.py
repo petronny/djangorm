@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.apps import apps
 from django.core.management import execute_from_command_line
+from django.db.models import ManyToManyField
 
 # Django specific settings
 module_name = 'db'
