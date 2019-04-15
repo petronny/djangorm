@@ -20,7 +20,7 @@ class User(models.Model):
 
 * Configure database
 ```python
-# django_orm.py
+# djangorm.py
 database = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(module_name, 'db.sqlite3')
@@ -30,10 +30,10 @@ database = {
 * Write your python code
 ```python
 # demo.py
-import django_orm
+import djangorm
 from db.models import *
 
-django_orm.migrate()
+djangorm.migrate()
 
 try:
     alice = User.objects.get(name='Alice')
@@ -48,7 +48,7 @@ for user in User.objects.all():
 Tips
 ----
 * If you get errors when doing migrations, try removing `db/migrations`.
-* If you want to rename the `db` folder, please also change the value of `module_name` in `django_orm.py`.
+* If you want to rename the `db` folder, please also change the value of `module_name` in `djangorm.py`.
 
 Acknownledgement
 ----

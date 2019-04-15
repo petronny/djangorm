@@ -1,8 +1,8 @@
 #!/bin/python3
-import django_orm
+import djangorm
 from db.models import *
 
-django_orm.migrate()
+djangorm.migrate()
 
 try:
     alice = User.objects.get(name='Alice')
