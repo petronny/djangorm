@@ -1,8 +1,10 @@
 #!/bin/python3
-import djangorm
-from db.models import *
+from djangorm import DjangORM
+test_db = DjangORM(module_name='test')
+test_db.configure()
+test_db.migrate()
 
-djangorm.migrate()
+from test.models import *
 
 try:
     alice = User.objects.get(name='Alice')
