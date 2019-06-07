@@ -5,38 +5,55 @@ from django.apps import apps
 from django.core.management import execute_from_command_line
 from django.db.models import ManyToManyField
 
-# Django specific settings
-module_name = 'db'
-database = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(os.path.realpath(__file__)), module_name, 'db.sqlite3')
-}
 
-conf = {
-    'INSTALLED_APPS': [
-        module_name
-    ],
-    'DATABASES': {
-        'default': database
-    }
-}
+class DjangORM:
 
-settings.configure(**conf)
-apps.populate(settings.INSTALLED_APPS)
+    def __init__(self, module_name, database=None):
+        if database is None:
+            database = {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(os.path.dirname(os.path.realpath(__file__)), module_name, 'db.sqlite3')
+            }
+        if not isinstance(module_name, str):
+            raise ValueError
+        if not isinstance(database, dict):
+            raise ValueError
 
-def migrate():
-    execute_from_command_line(['', 'makemigrations', module_name])
-    execute_from_command_line(['', 'migrate', module_name])
+        self.module_name = module_name
+        self.database = database
+        self.__configured__ = False
 
-def object_to_dict(instance):
-    opts = instance._meta
-    data = {}
-    for f in opts.concrete_fields + opts.many_to_many:
-        if isinstance(f, ManyToManyField):
-            if instance.pk is None:
-                data[f.name] = []
+    def configure(self):
+        if self.__configured__:
+            return
+        configuration = {
+            'INSTALLED_APPS': [
+                self.module_name
+            ],
+            'DATABASES': {
+                'default': self.database
+            }
+        }
+        settings.configure(**configuration)
+        apps.populate(settings.INSTALLED_APPS)
+        self.__configured__ = True
+
+    def migrate(self):
+        if self.__configured__ is False:
+            self.configure()
+        execute_from_command_line(['', 'makemigrations', self.module_name])
+        execute_from_command_line(['', 'migrate', self.module_name])
+
+    @staticmethod
+    def object_to_dict(instance):
+        opts = instance._meta
+        data = {}
+        for f in opts.concrete_fields + opts.many_to_many:
+            if isinstance(f, ManyToManyField):
+                if instance.pk is None:
+                    data[f.name] = []
+                else:
+                    data[f.name] = list(f.value_from_object(instance).values_list('pk', flat=True))
             else:
-                data[f.name] = list(f.value_from_object(instance).values_list('pk', flat=True))
-        else:
-            data[f.name] = f.value_from_object(instance)
-    return data
+                data[f.name] = f.value_from_object(instance)
+        return data

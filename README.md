@@ -11,29 +11,48 @@ Usage
 
 * Define the models:
 ```python
-# db/models.py
+# [your_module_name]/models.py
 from django.db import models
 
 class User(models.Model):
     name = models.CharField(max_length=50, default="")
+
 ```
 
-* Configure database
+* Using the default database (SQLite)
 ```python
-# djangorm.py
-database = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(module_name, 'db.sqlite3')
+from djangorm import DjangORM
+
+db = DjangORM(module_name='[your_module_name]')
+db.configure()
+db.migrate()
+
+```
+
+* Using a custom database (MySQL)
+```python
+from djangorm import DjangORM
+
+mysql_config = {
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': 'host',
+    'NAME': 'name',
+    'USER': 'user',
+    'PASSWORD': 'password',
 }
+db = DjangORM(module_name='[your_module_name]', database=mysql_config)
+db.configure()
+db.migrate()
+
 ```
 
 * Write your python code
 ```python
-# demo.py
-import djangorm
-from db.models import *
-
-djangorm.migrate()
+from djangorm import DjangORM
+db = DjangORM(module_name='[your_module_name]')
+db.configure()
+db.migrate()
+from test.models import *
 
 try:
     alice = User.objects.get(name='Alice')
@@ -43,12 +62,12 @@ except:
 
 for user in User.objects.all():
     print("ID: %d\tUsername: %s" % (user.id, user.name))
+
 ```
 
 Tips
 ----
-* If you get errors when doing migrations, try removing `db/migrations`.
-* If you want to rename the `db` folder, please also change the value of `module_name` in `djangorm.py`.
+* If you get errors when doing migrations, try removing `[your_module_name]/migrations`.
 
 Acknownledgement
 ----
