@@ -1,5 +1,6 @@
 #!/bin/python3
 import os
+import sys
 from django.conf import settings
 from django.apps import apps
 from django.core.management import execute_from_command_line
@@ -8,11 +9,14 @@ from django.db.models import ManyToManyField
 
 class DjangORM:
 
-    def __init__(self, module_name, database=None):
+    def __init__(self, module_name, database=None, module_path='.'):
         if database is None:
+            module_path = os.path.join(os.path.join(os.path.dirname(sys.argv[0]), module_path), module_name)
+            if os.path.exists(module_path) is False:
+                os.makedirs(module_path)
             database = {
                 'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(os.path.dirname(os.path.realpath(__file__)), module_name, 'db.sqlite3')
+                'NAME': os.path.join(module_path, 'db.sqlite3')
             }
         if not isinstance(module_name, str):
             raise ValueError
