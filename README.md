@@ -29,6 +29,12 @@ db.migrate()
 
 ```
 
+* Specify the relative path of the module
+```python
+db = DjangORM(module_name='[your_module_name]', module_path='[relative_path]')
+
+```
+
 * Using a custom database (MySQL)
 ```python
 from djangorm import DjangORM
