@@ -1,6 +1,7 @@
 #!/bin/python3
 import os
 import sys
+import inspect
 from django.conf import settings
 from django.apps import apps
 from django.core.management import execute_from_command_line
@@ -47,6 +48,15 @@ class DjangORM:
             self.configure()
         execute_from_command_line(['', 'makemigrations', self.module_name])
         execute_from_command_line(['', 'migrate', self.module_name])
+
+    def check_models(self, models):
+        models_members = inspect.getmembers(models, inspect.isclass)
+        for i in models_members:
+            models_class = i[1]
+            try:
+                models_class.objects.filter()[0]
+            except IndexError:
+                continue
 
     @staticmethod
     def object_to_dict(instance):
