@@ -52,6 +52,12 @@ db.migrate()
 
 ```
 
+* Make sure the fields are correct
+```python
+from [your_module_name] import models
+db.check_models(models)
+```
+
 * Write your python code
 ```python
 from djangorm import DjangORM
