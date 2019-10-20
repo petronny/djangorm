@@ -6,6 +6,7 @@ from django.conf import settings
 from django.apps import apps
 from django.core.management import execute_from_command_line
 from django.db.models import ManyToManyField
+from django.db import connections
 
 
 class DjangORM:
@@ -57,6 +58,8 @@ class DjangORM:
                 models_class.objects.filter()[0]
             except IndexError:
                 continue
+        for i in connections.all():
+            i.close()
 
     @staticmethod
     def object_to_dict(instance):
