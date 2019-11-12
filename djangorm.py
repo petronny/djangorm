@@ -29,6 +29,11 @@ class DjangORM:
         self.database = database
         self.__configured__ = False
 
+    @staticmethod
+    def close_old_connections():
+        for conn in connections.all():
+            conn.close_if_unusable_or_obsolete()
+
     def configure(self):
         if self.__configured__:
             return
@@ -58,8 +63,7 @@ class DjangORM:
                 models_class.objects.filter()[0]
             except IndexError:
                 continue
-        for i in connections.all():
-            i.close()
+        self.close_old_connections()
 
     @staticmethod
     def object_to_dict(instance):
