@@ -52,12 +52,6 @@ db.migrate()
 
 ```
 
-* Make sure the fields are correct
-```python
-from [your_module_name] import models
-db.check_models(models)
-```
-
 * Write your python code
 ```python
 from djangorm import DjangORM
@@ -80,6 +74,10 @@ for user in User.objects.all():
 Tips
 ----
 * If you get errors when doing migrations, try removing `[your_module_name]/migrations`.
+* There is a function that checking if all the fields are correct.
+```python
+db.check_models(models)
+```
 
 Acknownledgement
 ----
