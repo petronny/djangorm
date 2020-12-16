@@ -8,7 +8,7 @@ Dependencies
 
 Installation
 ---
-Just clone the repository to whatever you like.
+Just clone the repository to wherever you like.
 
 Usage
 ----
