@@ -62,7 +62,7 @@ from test.models import *
 
 try:
     alice = User.objects.get(name='Alice')
-except:
+except User.DoesNotExist:
     alice = User(name='Alice')
     alice.save()
 
