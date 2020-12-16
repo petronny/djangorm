@@ -9,34 +9,21 @@ Dependencies
 Usage
 ----
 
-* Define the models:
+* Setting up the default database (SQLite)
 ```python
-# [your_module_name]/models.py
-from django.db import models
-
-class User(models.Model):
-    name = models.CharField(max_length=50, default="")
-
-```
-
-* Using the default database (SQLite)
-```python
+# [your_module_name]/__init__.py
+import os
+from pathlib import Path
 from djangorm import DjangORM
 
-db = DjangORM(module_name='[your_module_name]')
+db = DjangORM(module_name=Path(__file__).parent.name)
 db.configure()
 db.migrate()
-
 ```
 
-* Specify the relative path of the module
+* Setting up a custom database (MySQL)
 ```python
-db = DjangORM(module_name='[your_module_name]', module_path='[relative_path]')
-
-```
-
-* Using a custom database (MySQL)
-```python
+# [your_module_name]/__init__.py
 from djangorm import DjangORM
 
 mysql_config = {
@@ -49,16 +36,20 @@ mysql_config = {
 db = DjangORM(module_name='[your_module_name]', database=mysql_config)
 db.configure()
 db.migrate()
+```
 
+* Define the models:
+```python
+# [your_module_name]/models.py
+from django.db import models
+
+class User(models.Model):
+    name = models.CharField(max_length=50, default="")
 ```
 
 * Write your python code
 ```python
-from djangorm import DjangORM
-db = DjangORM(module_name='[your_module_name]')
-db.configure()
-db.migrate()
-from test.models import *
+from [your_module_name].models import *
 
 try:
     alice = User.objects.get(name='Alice')
@@ -68,15 +59,20 @@ except User.DoesNotExist:
 
 for user in User.objects.all():
     print("ID: %d\tUsername: %s" % (user.id, user.name))
-
 ```
 
 Tips
 ----
 * If you get errors when doing migrations, try removing `[your_module_name]/migrations`.
+
 * There is a function that checking if all the fields are correct.
 ```python
 db.check_models(models)
+```
+
+* Specify the relative path of the module
+```python
+db = DjangORM(module_name='[your_module_name]', module_path='[relative_path]')
 ```
 
 Acknownledgement
