@@ -6,6 +6,10 @@ Dependencies
 ----
 * Django
 
+Installation
+---
+Just clone the repository to whatever you like.
+
 Usage
 ----
 
