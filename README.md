@@ -1,6 +1,6 @@
-Simplest Django ORM
+DjangORM
 ====
-This is a Django ORM library that allows you to use Django's excellent ORM without having to use the rest of Django.
+A library that allows you to use Django's excellent ORM without having to use the rest of Django.
 
 Dependencies
 ----
