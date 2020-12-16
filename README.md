@@ -33,7 +33,7 @@ mysql_config = {
     'USER': 'user',
     'PASSWORD': 'password',
 }
-db = DjangORM(module_name='[your_module_name]', database=mysql_config)
+db = DjangORM(module_name=Path(__file__).parent.name, database=mysql_config)
 db.configure()
 db.migrate()
 ```
